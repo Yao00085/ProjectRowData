@@ -1,0 +1,285 @@
+---
+title: "美国投资顾问发展现状与运作模式分析"
+author:
+  - 姚晋
+documentclass: ctexart
+geometry: "left=2.5cm,right=2cm,top=3cm,bottom=2.5cm"
+keywords:
+  - 中文
+  - R Markdown
+output:
+  rticles::ctex:
+    fig_caption: yes
+    number_sections: yes
+    toc: yes
+---
+
+```{r,echo = FALSE, include = F}
+library(ggplot2)
+library(hrbrthemes)
+library(dplyr)
+library(plotrix)
+library(magrittr)
+library(gridExtra)
+library(ggfortify)
+```
+
+# 行业概况
+
+&emsp;&emsp; 1920年美国股市大繁荣开始，与证券交易相关的服务业务得到了长足的发展，其中最具代表性的即与证券交易密切相关的投资顾问业务。经过投资业务近百年的发展，其不论行业监管还是个人投资规模都达到较为合规且蓬勃的水平。本文将着重探讨美国投顾业务发展的现状并分析其业务的运作模式，希望其有一定的借鉴意义。
+
+&emsp;&emsp; Statista显示2019年美国拥有共同基金的家庭占比为46.4%，而1980年同类占比才为5.7%（表一）。1980年开始以11%左右的年复合增长率增长到2000年趋于稳定。即使不包含个人退休账户（IRAs）和定额供款养老金（401k）中的股票，资产的非养老金股权份额也从1990年的10％上升到2002年的15％。这主要反映了共同基金股票增加伴随与养恤金有关的（定额养恤金和IRA）和其他股票的持有都大幅增加。2019年12月由FINRA出具的金融类产品投资的逐项调查显示，略超过三分之一的投资者的非退休账户资产不足50,000美元，其中30％的资产在50,000美元至250,000美元之间，而29％的投资者的资产超过25万美元。根据富达投资（Fidelity）发布的报告，自2009年3月市场触底以来的10年中，401基金行业的膨胀拓宽了投资者购买基金的渠道，给基金投资顾问业务带来发展的契机。据统计，2018年美国投资者比2015年更少担心欺诈行为。对市场受到有效监管而对市场更有信心的受访者比例从2015年的25％增加到2018年的32％，同期担心被骗的比例从40％下降到34％。越来越有信心的投资者也是投顾业务发展的客观推动力。
+
+:Share of households owning mutual funds in the United States from 1980 to 2019
+
+|Year|1980|1985|1990|1995|2000|2005|2010|2015|2019|
+|:-:|:-|:-|:-|:-|:-|:-|:-|:-|:-|
+|Percent|25.1|28.7|45.7|44.4|45.3|43.0|46.4|
+
+
+# 行业市场分析
+
+## 行业背景与规模
+
+```{r,echo = FALSE,out.width='60%',fig.align='center',fig.cap=c("美国散户投资方式（百分比）", "aa")}
+way_invest = (data.frame(`Way` = factor(rep(c("conduct by own", "discuss with advisers","advisers invest","web-based tool","mobile app"), each=1)), Percent = c(78,65,61,32,22)))
+ggplot(way_invest,aes(as.factor(Way), Percent)) +
+    geom_bar(stat = "identity",fill = "steelblue") + 
+    labs(y = "Percent", x = "Investment method") + theme_minimal() + scale_x_discrete(limits = c("conduct by own", "discuss with advisers","advisers invest", "web-based tool","mobile app"))
+```
+
+&emsp;&emsp; 根据NFCS InvestorSurvey统计（图一），65％的人做投资决定自己之前要与专业人士（包括但不限于投资顾问）讨论投资方案。值得一提的是移动应用程序的使用仍然相对很少，只占总投资者的22%。在使用专业人士来选择投资的人士中，63％表示每笔交易都需要获得他们的批准。与投资决策一样，投资者使用多种方式执行交易。尽管在线交易是最常被引用的方法（55％），但几乎有很多（53％）表示他们经常或有时联系其财务顾问进行交易，这些群体之间有很大的重叠。在进行在线交易的人中，有51％的人也通过其投资顾问进行交易。在过去一年中完成11笔或以上交易的投资者中，通过网站进行在线交易是迄今为止最常用的方法（83％），其次是通过移动应用程序（53％）与财务顾问联系（56％），以及致电金融公司（47％）。投顾公司的客户比去年增加了900万，据报告称部分归因于机器人顾问越来越受欢迎。庞大的基金市场和交易体量反映了投顾服务在美国公募基金行业中的重要性。
+
+```{r,echo = FALSE,out.width='60%',fig.align='center',fig.cap=c("截至2020年9月，按管理资产分列的美国领先的注册投资咨询公司（单位：十亿美元）", "aa")}
+leading <- read.csv("leading.csv",header = T)
+leading <- leading[order(-leading$Asset.Under.management),]
+ggplot(leading, aes(x = as.factor(`Company`), y = `Asset.Under.management`, main="Leading registered investment advisory firms in the United States as of September 2020, by assets under management(in billion U.S. dollars)")) +
+         geom_bar(stat = "identity") +
+         coord_flip() + scale_y_continuous(name="Share of respondents (in percent) that current using") +
+  scale_x_discrete(name="") +
+  theme(axis.text.x = element_text(face="bold", color="#008000",
+                           size=8, angle=0),
+        axis.text.y = element_text(face="bold", color="#008000",
+                           size=8, angle=0))
+
+```
+
+:RIA市场的总资产 
+
+|管理资产规模|公司数量|总管理金额|
+|:-:|:-|:-|
+|资产从0美元到5000万美元|3,581|$187,454,781,492|
+|资产在5000万美元至1亿美元|2,988|$215,062,871,044|
+|资产在1亿美元至2亿美元|3,134|$450,096,345,9122|
+|资产在2亿美元至5亿美元|3,455|$1,107,577,265,920|
+|资产在5亿美元至10亿美元|1,837|$1,305,550,518,688|
+|资产从10亿美元到20亿美元|1,334|$1,884,603,434,880|
+|资产从20亿美元到30亿美元|575|$1,414,972,332,672|
+|资产超过30亿美元|2,040|$89,965,079,257,856|
+
+
+&emsp;&emsp; 据图二所示，投资顾问公司头部效应明显。2020年9月，Financial Engines Advisors的管理资产（AUM）达到2290亿美元，使其成为AUM在美国最大的注册投资顾问（RIA）公司。除前三名外，所有公司管理的资产不足420亿美元。
+
+## 行业政策现状
+
+
+&emsp;&emsp; 国会与1996年修订了1940年制定的《投资顾问法》，要求SEC建立一个易于访问的电子程序，以回应公众对投资顾问及其学科信息的询问。SEC通常监管管理资产超过1亿美元的投资顾问，不符合此门槛的投资顾问通常由各州监管。投资顾问公司通常在SEC注册，但不会单独注册投资顾问公司的代表。各州注册投资顾问公司，许多州分别注册个人投资顾问代表。因此个人或企业均可申请投顾资质，且既可以向美国证监会（SEC）申请，也可以向州政府相关机构申请（投资顾问的常用名称包括资产经理，投资顾问，投资经理，投资组合经理和财富经理。投资顾问企业和个人以下统称投资顾问）。据NASAA统计，2019年全年在SEC备案的投资顾问达11008家，而州注册投资顾问达17533家（图二）。两种年州均司法辖区注册公司分别达208和331家。Investment Adviser Public Disclosure是一家由SEC设立的可以搜索投资顾问公司，并查看注册或报告表格的网站。该网站还将搜索FINRA的BrokerCheck系统，并指出实体是否为经纪公司。
+
+
+```{r,echo = FALSE,out.width='60%',fig.align='center',fig.cap=c("投资顾问注册情况", "aa")}
+# 3D Exploded Pie Chart
+slices <- c(11008, 17533)
+lbls <- c("SEC filed", "State registered")
+pie3D(slices,labels=lbls,explode=0.1,
+   main="Investment advisers statistics")
+?pie3D
+```
+
+## 投资顾问的职能和行业盈利模式
+
+&emsp;&emsp; 美国投顾通常通过管理费来赚取收入。管理费包括为客户持有的资产的一定百分比，费用有所波动，但平均约为1％。通常客户需管理的资产越多，投顾可以协商的费用越低 ——有时低至0.35％。这将使客户的最佳利益与投顾的利益保持一致，因为除非客户不增加资产基础，否则顾问无法在帐户上赚更多的钱。如果平均管理费是每年资产的1％，那么一个100,000美元的帐户能赚取1,000美元的年费，这可能比该公司为该帐户提供服务所需的内部费用要少，因此投顾更加追求高净值客户。这种考虑管理费的绩效方式有别于传统的赚取佣金的销售，更扎实和包装更好的投顾也更吸引高净值的客户。投顾越来越多地聘请CPA，律师和其他财务专业人员，因为他们试图提供高净值客户可能想要的所有服务。
+
+&emsp;&emsp; 美国证券交易委员会（SEC）注册顾问2019年度报告称全国共有835,124名非文书员工，比2018年增加3.7％，并且在过去五年中增长了16.0％。在这些雇员中，有436,256名提供投资咨询服务（包括研究），比2018年增加了20,285名（4.9％）。
+
+
+## 行业合规做法和程序
+
+* 每年审查和修订ADV表和披露手册以反映最新情况。
+
+* 查看和更新所有合同。
+
+* 准备和维护所有必需的记录，包括财务记录。备份电子数据并保护记录，转发文档检查。
+
+* 准备和维护客户资料或其他客户适用性信息。
+
+* 准备与业务类型相关的书面合规性和监督程序手册，以包括业务连续性计划和信息安全策略/过程。
+
+* 准备并每年分发隐私政策。
+
+* 保持准确和最新的财务状况，及时向管辖区归档。如果需要，请保持保证金担保。 
+
+* 根据合同和ADV正确计算并记录费用。 
+
+* 查看包括网站和性能广告的所有公式，以确保准确性。 
+
+* 实施适当的监护权保障措施，尤其是直接扣除费用。 
+
+* 审查律师协议，披露和交付程序
+
+
+
+
+
+# 业务发展带来新的挑战与机遇
+
+
+
+## 美国经济环境
+
+
+## 相关监管跟不上投资策略的发展
+
+&emsp;&emsp; 投资顾问为客户出售建议和个性化计划。与经纪交易商不同，投顾不是销售人员。他们的重点是提供投资建议，而不是出售金融产品。投顾通常不会自行进行交易，他们雇用保管人或经纪人来完成这些任务，从而可以专注于其信托义务。投资顾问不出售投资产品。 相反，他们的工作是为客户创建一个投资计划，其中要考虑许多财务变量，例如：
+
+    客户对风险的感受
+    客户的未来计划（客户准备购买房屋，计划退休还是送孩子上大学？）
+    各种财产的税收影响
+    股票，债券，共同基金和其他期权之间的适当平衡
+&emsp;&emsp; 现有大部分投顾不仅受客户委托管理资产，还渗透到了客户有关财务投资和理财理念的方方面面。千禧一代伴随着互联网的发展成长起来。尽管千禧一代对传统投资顾问和老套的投资策略缺乏兴趣，新型的投资策略包括但不限于ESG和相关投资方法（如社会责任投资（SRI）或企业社会责任（CSR）统称为ESG投资）却足够吸引年轻人。积极支持此类运动的投资者更倾向于以符合他们个人信念的方式去投资股票和债务市场。
+
+
+## 投资策略复杂化带来的规范性问题
+
+&emsp;&emsp; 与混合投资顾问和经纪人相比，美国独立的投资顾问增长迅速。从历史上与保险公司有关的销售压力来看，独立的投资顾问仍然相对不受压力。当今市场的复杂性和波动性使投顾的需求比以往任何时候都要大。但是因为SEC尚未发布有关市场的新型策略投资的具体详细指南，越来越丰富的投资策略往往伴随合规性问题。《信托责任解释》10提供了一个有用的框架，可用于在设计和实施投资策略时解决关键因素。这些考虑因素可以包括相关的咨询协议中应包含哪些附加条款，相关产品中应披露哪些内容，如何选择和审查数据提供者的尽职调查流程以及需要哪些附加合规政策。甚至如果投资策略发生重大变化，则可能需要获得客户的同意。因此在有关投资策略条例的严格要求程度上仍然有一段路要走。首先监管如果过于严格或手续过于冗长会抑制投资顾问对于某些策略实施的积极性，但是如果监督过于简单化，很容易造成同《顾问法案》相矛盾的局面。
+
+
+## 业务非良性增长带来
+
+
+
+
+## 数字化与智能化
+
+&emsp;&emsp; 随着人工智能的发展，越来越大的市场规模必然使市场向数字化倾斜。从与客户的交流方式上，有36％的人表示他们当前正在使用视频会议作为客户端通信工具，而有31％的人表示他们2020年正在探索该工具（[**MaritzCX**](https://www.tdainstitutional.com/content/dam/institutional/resources/ria-sentiment-survey/presentation_2020_RIA_sentiment_survey_7Jan2020_1271014.pdf)）。52%的人表示已经或者在考虑将人工智能软件或设备作为交流方式，41%的受访者正在探索安全交流短信的沟通方式。
+
+```{r, echo = FALSE,out.width='70%',fig.align='center',fig.cap=c("2020年美国注册投资顾问（RIA）在客户交流中使用的技术工具（上：正在使用的比例；中：2020年正在探索中的比例；下：不会考虑使用的比例）", "aa")}
+
+dta_digital <- read.csv("Item_RIA_Communication.csv")
+View(dta_digital)
+Current <- ggplot(data = dta_digital, aes(x = as.factor(`Item`), y = `Currently.do`, fill = Item)) + geom_bar(stat = "identity") + theme_minimal() + 
+    labs(y = "Share of Respondents", x = "Preferred comunication method")
+
+Exploring <- ggplot(data = dta_digital, aes(x = as.factor(`Item`), y = `Exploring.for.2020`, fill = Item)) + geom_bar(stat = "identity") + theme_minimal() + 
+    labs(y = "Share of Respondents", x = "Preferred comunication method")
+
+NoConsidering <- ggplot(data = dta_digital, aes(x = as.factor(`Item`), y = `Not.considering`, fill = Item)) + geom_bar(stat = "identity") + theme_minimal() + 
+    labs(y = "Share of Respondents", x = "Preferred comunication method")
+
+#options(repr.plot.width=8, repr.plot.height=3)
+
+current <- ggplot(dta_digital, aes(x = as.factor(`Item`), y = `Currently.do`, main="Share of respondents of currently do")) +
+         geom_bar(stat = "identity") +
+         coord_flip() + scale_y_continuous(name="Share of respondents (in percent) that current using") +
+  scale_x_discrete(name="") +
+theme(axis.text.x = element_text(face="bold", color="#008000",
+                           size=8, angle=0),
+          axis.text.y = element_text(face="bold", color="#008000",
+                           size=8, angle=0))
+
+explore <- ggplot(dta_digital, aes(x = as.factor(`Item`), y = `Exploring.for.2020`, main="Share of respondents of exploring")) +
+         geom_bar(stat = "identity") +
+         coord_flip() + scale_y_continuous(name="Share of respondents (in percent) of exploring") +
+  scale_x_discrete(name="") +
+theme(axis.text.x = element_text(face="bold", color="#008000",
+                           size=8, angle=0),
+          axis.text.y = element_text(face="bold", color="#008000",
+                           size=8, angle=0))
+
+NotConsider <- ggplot(dta_digital, aes(x = as.factor(`Item`), y = `Not.considering`, main="Share of respondents of not consider")) +
+         geom_bar(stat = "identity") +
+         coord_flip() + scale_y_continuous(name="Share of respondents (in percent) that do not use") +
+  scale_x_discrete(name="") +
+theme(axis.text.x = element_text(face="bold", color="#008000",
+                           size=8, angle=0),
+          axis.text.y = element_text(face="bold", color="#008000",
+                           size=8, angle=0))
+
+grid.arrange(current, explore, NotConsider, ncol = 1, nrow = 3, layout_matrix = rbind(c(1,1),c(2,2),c(3,3)))
+```
+&emsp;&emsp; 数字与智能化的推动下，各行从业人员越来越关注同客户的个性化的互动。88％的美国营销人员报告称，由于个性化而带来了可观的改进，其中超过一半的报告称提升超过10％。埃森哲（Accenture）报告称，有91％的消费者和客户更可能通过与提供与其相关的优惠的建议下建议消费。Epsilon的研究表明80％的客户更有可能从提供个性化体验的品牌购买商品。图五是顾客对于各类信息索求下愿意提供个人信息的比例，近三分之二（57％）的受访者表示，他们愿意共享个人数据。同时大部分年轻人表示其对个性定制感兴趣。麦肯锡在“个性化的未来-以及如何为此做好准备”提到如果营销人员无法持续了解高价值客户的需求，则个性化是不可能的。因此智能化是投资顾问作为以客户为中心的行业的中心，在顾问为投资做建议时建立客户生态系统以方便未来顾问进行客户行为调查。
+
+```{r, echo = FALSE,out.width='70%',fig.align='center',fig.cap=c("顾客受访者愿意公开自己信息比例", "aa")} 
+ knitr::include_graphics('Intell.png')
+```
+
+
+
+
+
+
+## 展望和前景
+
+* 对于行业标准
+
+新出现的投资策略有时以观点和价值观的差异为特征，有时缺乏明确的监管定义。有关部门应该完善相关策略的定义     ，尽可能做到投资顾问在短时间内有据可依，确保投资策略与顾问的信托职责相一致。
+
+* 对于投资顾问
+
+首先行业职责方面，SEC在《信托义务解释》中指出，顾问有义务合理理解客户的投资目标。了解客户的投资目标意味着对客户的投资目标，财务资源，风险状况和投资成熟度有清晰的了解，在此基础上评估是否考虑新型投资策略是否与客户最大利益的投资策略是一致的。
+
+其次个人职业发展问题上。投资顾问是一个以客户为中心，考虑客户利益最大化的职业。因此投资顾问是个相当个性化的行业。如何制定符合投资者理念和气质的投资策略越来越重要。这就需要投资顾问跟紧社会发展潮流，高效利用更加智能的交流方式，合理运用投资策略定制程序等数字化软件,一方面有助于吸引年轻客户，更重要的是在未来以技术为导向的金融服务业中保持核心竞争力。
+
+
+
+
+
+# 来源 (点击下方条目链接获取数据详细信息)
+
+
+[1) Investment Advisers: Who are they](https://www.finra.org/investors/learn-to-invest/choosing-investment-professional/investment-advisers)
+
+[2) FINRA](https://www.usfinancialcapability.org/downloads/NFCS_2018_Inv_Survey_Full_Report.pdf)
+
+[3) NASAA](https://www.nasaa.org/wp-content/uploads/2020/04/2020-IA-Section-Report-FINAL.pdf)
+
+[4) Fidelity Investments](https://s2.q4cdn.com/997146844/files/doc_news/archive/36b897b5-30a5-48cb-9be9-9ecb0e39ff54.pdf)
+
+[5) Investopia: What Is a Registered Investment Advisor?](https://www.investopedia.com/articles/financialcareers/06/whatisaria.asp)
+
+[6) Dechert LLP: ESG Investing: Considerations for U.S. Registered Investment Advisers](https://www.dechert.com/knowledge/onpoint/2020/1/esg-investing--considerations-for-u-s--registered-investment-adv.html)
+
+[7) 表一数据:ICI](https://www.statista.com/statistics/246224/mutual-funds-owned-by-american-households/)
+
+[8) MaritzCX](https://www-statista-com.ezproxy.insead.edu/statistics/1098165/tech-tools-ria-client-communication-usa/)
+
+[9) IAPD，Investment Adviser Public Disclosure](https://adviserinfo.sec.gov/)
+
+[10) General Information on the Regulation of Investment Advisers](https://www.sec.gov/divisions/investment/iaregulation/memoia.htm)
+
+[11) 美国证券投资顾问服务市场发展及借鉴](http://school.freekaoyan.com/bj/ruc/lunwen/2017/07-03/1499081396166330.shtml)
+
+[12) 2017年中美智能投顾行业发展现状及未来发展趋势](http://www.chyxx.com/industry/201708/546474.html)
+
+[13) CITYWIRE](https://citywireusa.com/registered-investment-advisor/news/ria-numbers-rising-as-industry-growth-continues-report-says/a1267828)
+
+[14) TD Ameritrade Institutional2020 RIA Sentiment Survey](https://www.tdainstitutional.com/content/dam/institutional/resources/ria-sentiment-survey/presentation_2020_RIA_sentiment_survey_7Jan2020_1271014.pdf)
+
+[15) Regulation of Investment Advisers by the U.S. Securities and Exchange Commission](https://s3.amazonaws.com/assets.production.proskauer/uploads/2b7629f00fa83f3125003668971a29a6.pdf)
+
+[16) RIA Channel](https://www.riachannel.com/understanding-the-ria-channel/)
+
+[17) Ameritrade instutional：注册投资顾问可以卖什么？](https://www.tdainstitutional.com/insights/articles/what-can-a-registered-investment-advisor-sell-.html)
+
+[18) Personalization, privacy and trust in the age of the empowered consumer](https://about.ads.microsoft.com/en-us/blog/post/may-2020/personalization-privacy-and-trust-in-the-age-of-the-empowered-consumer)
+
+[18) 美国基金投顾业务发展研究](http://finance.sina.com.cn/roll/2020-03-02/doc-iimxxstf5635241.shtml)
+
+[19) Morgan Lewis: The Evolution of Advice, Digital Investment Advisers as Fiduciaries](https://www.morganlewis.com/~/media/files/publication/report/im-the-evolution-of-advice-digital-investment-advisers-as-fiduciaries-october-2016.ashx?la=en)
+
+[20) Business and Industry](https://www.businessandindustry.co.uk/fintech/why-fintech-investing-will-become-more-attractive-post-covid-19/)
+
+[21) RIA Salaries on the Rise as Firms Pay Up for New Hires–Study](https://www.advisorhub.com/ria-salaries-on-the-rise-as-firms-pay-up-for-new-hires-study/)
+
+[22) Should RIA Business Models Change?](https://www.cfainstitute.org/en/research/cfa-magazine/2018/should-ria-business-models-change)
+
+[23) 2019 EVOLUTION REVOLUTION](moz-extension://0bba240f-b8d7-1541-8040-c9dccfa4bb34/pdf-viewer/web/viewer.html?file=https%3A%2F%2Fhigherlogicdownload.s3.amazonaws.com%2FINVESTMENTADVISER%2Faa03843e-7981-46b2-aa49-c572f2ddb7e8%2FUploadedImages%2Fresources%2F2019-Evolution-Revolution-z.pdf)
